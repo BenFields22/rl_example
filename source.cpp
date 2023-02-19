@@ -1,8 +1,11 @@
 #include <iostream>
 #include "Utils.hpp"
+#include <string>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+
+Logger *mainLogger = new Logger("MAIN",1,Color::RED);
 
 int sortObject(int objClass, std::vector<int> weights){
     int max = -99999999;
@@ -36,9 +39,11 @@ int main(int argc, char** argv){
     int step = 0;
     while(numcorrect<stopCondition){
         int randnum = (rand()%5);
-        std::cout << "Class is "<<randnum << std::endl;
+        std::string s = "Class is "+std::to_string(randnum);
+        log(mainLogger,s); 
         int selection = sortObject(randnum,weights);
-        std::cout << "Model selected "<<selection << std::endl;
+        s = "Model Selected "+std::to_string(selection);
+        log(mainLogger,s);
         int res = updateWeights(randnum,selection,weights);
         if(res){
             numcorrect++;
@@ -50,7 +55,8 @@ int main(int argc, char** argv){
         printVecNum(weights);
         std::cout  << std::endl;
     }
-    std::cout << "Took "<<step<<" steps to complete with final weights:" << std::endl;
+    std::string s = "Took "+std::to_string(step)+" steps to complete with final weights:";
+    log(mainLogger,s);
     printVecNum(weights);    
 	return 0;
 }
